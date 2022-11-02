@@ -1,0 +1,56 @@
+application {
+  config {
+    applicationType monolith
+    authenticationType session
+    baseName recipebook
+    blueprints []
+    buildTool maven
+    cacheProvider no
+    clientFramework react
+    clientPackageManager npm
+    clientTheme none
+    creationTimestamp 1666144961523
+    databaseType sql
+    devDatabaseType postgresql
+    dtoSuffix DTO
+    enableGradleEnterprise false
+    enableHibernateCache false
+    enableSwaggerCodegen false
+    enableTranslation false
+    gradleEnterpriseHost ""
+    jhiPrefix jhi
+    jhipsterVersion "7.9.3"
+    languages [en, fr]
+    messageBroker false
+    microfrontend false
+    microfrontends []
+    nativeLanguage en
+    otherModules []
+    packageName net.kylejones.recipebook
+    prodDatabaseType postgresql
+    reactive false
+    rememberMeKey "3a4d549fdeabe20629386a6e86fbca775f2c52c115a3512d257f9ce71970d8074b5fdd035b59d2a376e30656376b728a3622"
+    searchEngine false
+    serverPort 8080
+    serviceDiscoveryType no
+    skipClient false
+    skipUserManagement false
+    testFrameworks [cypress]
+    websocket false
+    withAdminUi true
+  }
+
+  entities Ingredient, Recipe
+}
+
+entity Ingredient {
+  name String required maxlength(40)
+}
+entity Recipe {
+  title String required maxlength(40)
+}
+relationship ManyToMany {
+  Recipe{ingredient(name)} to Ingredient
+}
+
+paginate Ingredient, Recipe with pagination

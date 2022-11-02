@@ -1,0 +1,25 @@
+{
+  "changelogDate": "20221102004916",
+  "fields": [
+    {
+      "fieldName": "title",
+      "fieldType": "String",
+      "fieldValidateRules": ["required", "maxlength"],
+      "fieldValidateRulesMaxlength": "40"
+    }
+  ],
+  "name": "Recipe",
+  "pagination": "pagination",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "ingredient",
+      "otherEntityRelationshipName": "recipe",
+      "ownerSide": true,
+      "relationshipName": "ingredient",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "no"
+}
