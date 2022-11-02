@@ -8,6 +8,8 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+import { IRecipe } from 'app/shared/model/recipe.model';
+import { getEntities as getRecipes } from 'app/entities/recipe/recipe.reducer';
 import { IIngredient } from 'app/shared/model/ingredient.model';
 import { getEntity, updateEntity, createEntity, reset } from './ingredient.reducer';
 
@@ -19,6 +21,7 @@ export const IngredientUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
+  const recipes = useAppSelector(state => state.recipe.entities);
   const ingredientEntity = useAppSelector(state => state.ingredient.entity);
   const loading = useAppSelector(state => state.ingredient.loading);
   const updating = useAppSelector(state => state.ingredient.updating);
@@ -34,6 +37,8 @@ export const IngredientUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
+
+    dispatch(getRecipes({}));
   }, []);
 
   useEffect(() => {

@@ -11,6 +11,14 @@
   "name": "Ingredient",
   "pagination": "pagination",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "recipe",
+      "otherEntityRelationshipName": "ingredient",
+      "ownerSide": false,
+      "relationshipName": "recipe",
+      "relationshipType": "many-to-many"
+    }
+  ],
   "service": "no"
 }

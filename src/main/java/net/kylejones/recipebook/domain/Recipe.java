@@ -1,5 +1,6 @@
 package net.kylejones.recipebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -33,6 +34,7 @@ public class Recipe implements Serializable {
         joinColumns = @JoinColumn(name = "recipe_id"),
         inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
+    @JsonIgnoreProperties(value = { "recipes" }, allowSetters = true)
     private Set<Ingredient> ingredients = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -78,11 +80,13 @@ public class Recipe implements Serializable {
 
     public Recipe addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
+        ingredient.getRecipes().add(this);
         return this;
     }
 
     public Recipe removeIngredient(Ingredient ingredient) {
         this.ingredients.remove(ingredient);
+        ingredient.getRecipes().remove(this);
         return this;
     }
 

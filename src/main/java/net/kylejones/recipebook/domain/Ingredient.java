@@ -1,6 +1,9 @@
 package net.kylejones.recipebook.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -24,6 +27,10 @@ public class Ingredient implements Serializable {
     @Size(max = 40)
     @Column(name = "name", length = 40, nullable = false)
     private String name;
+
+    @ManyToMany(mappedBy = "ingredients")
+    @JsonIgnoreProperties(value = { "ingredients" }, allowSetters = true)
+    private Set<Recipe> recipes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -51,6 +58,37 @@ public class Ingredient implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Set<Recipe> getRecipes() {
+        return this.recipes;
+    }
+
+    public void setRecipes(Set<Recipe> recipes) {
+        if (this.recipes != null) {
+            this.recipes.forEach(i -> i.removeIngredient(this));
+        }
+        if (recipes != null) {
+            recipes.forEach(i -> i.addIngredient(this));
+        }
+        this.recipes = recipes;
+    }
+
+    public Ingredient recipes(Set<Recipe> recipes) {
+        this.setRecipes(recipes);
+        return this;
+    }
+
+    public Ingredient addRecipe(Recipe recipe) {
+        this.recipes.add(recipe);
+        recipe.getIngredients().add(this);
+        return this;
+    }
+
+    public Ingredient removeRecipe(Recipe recipe) {
+        this.recipes.remove(recipe);
+        recipe.getIngredients().remove(this);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
