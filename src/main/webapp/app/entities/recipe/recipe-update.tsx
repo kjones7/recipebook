@@ -96,6 +96,37 @@ export const RecipeUpdate = () => {
                   maxLength: { value: 40, message: 'This field cannot be longer than 40 characters.' },
                 }}
               />
+              <ValidatedField
+                label="Servings"
+                id="recipe-servings"
+                name="servings"
+                data-cy="servings"
+                type="text"
+                validate={{
+                  min: { value: 0, message: 'This field should be at least 0.' },
+                  validate: v => isNumber(v) || 'This field should be a number.',
+                }}
+              />
+              <ValidatedField
+                label="Instructions"
+                id="recipe-instructions"
+                name="instructions"
+                data-cy="instructions"
+                type="text"
+                validate={{
+                  maxLength: { value: 2000, message: 'This field cannot be longer than 2000 characters.' },
+                }}
+              />
+              <ValidatedField
+                label="Notes"
+                id="recipe-notes"
+                name="notes"
+                data-cy="notes"
+                type="text"
+                validate={{
+                  maxLength: { value: 2000, message: 'This field cannot be longer than 2000 characters.' },
+                }}
+              />
               <ValidatedField label="Ingredient" id="recipe-ingredient" data-cy="ingredient" type="select" multiple name="ingredients">
                 <option value="" key="0" />
                 {ingredients

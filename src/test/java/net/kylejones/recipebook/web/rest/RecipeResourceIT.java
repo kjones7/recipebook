@@ -1,5 +1,6 @@
 package net.kylejones.recipebook.web.rest;
 
+import static net.kylejones.recipebook.web.rest.TestUtil.sameNumber;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.mockito.Mockito.*;
@@ -7,6 +8,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -42,6 +44,15 @@ class RecipeResourceIT {
     private static final String DEFAULT_TITLE = "AAAAAAAAAA";
     private static final String UPDATED_TITLE = "BBBBBBBBBB";
 
+    private static final BigDecimal DEFAULT_SERVINGS = new BigDecimal(0);
+    private static final BigDecimal UPDATED_SERVINGS = new BigDecimal(1);
+
+    private static final String DEFAULT_INSTRUCTIONS = "AAAAAAAAAA";
+    private static final String UPDATED_INSTRUCTIONS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_NOTES = "AAAAAAAAAA";
+    private static final String UPDATED_NOTES = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/recipes";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -69,7 +80,11 @@ class RecipeResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Recipe createEntity(EntityManager em) {
-        Recipe recipe = new Recipe().title(DEFAULT_TITLE);
+        Recipe recipe = new Recipe()
+            .title(DEFAULT_TITLE)
+            .servings(DEFAULT_SERVINGS)
+            .instructions(DEFAULT_INSTRUCTIONS)
+            .notes(DEFAULT_NOTES);
         return recipe;
     }
 
@@ -80,7 +95,11 @@ class RecipeResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Recipe createUpdatedEntity(EntityManager em) {
-        Recipe recipe = new Recipe().title(UPDATED_TITLE);
+        Recipe recipe = new Recipe()
+            .title(UPDATED_TITLE)
+            .servings(UPDATED_SERVINGS)
+            .instructions(UPDATED_INSTRUCTIONS)
+            .notes(UPDATED_NOTES);
         return recipe;
     }
 
@@ -105,6 +124,9 @@ class RecipeResourceIT {
         assertThat(recipeList).hasSize(databaseSizeBeforeCreate + 1);
         Recipe testRecipe = recipeList.get(recipeList.size() - 1);
         assertThat(testRecipe.getTitle()).isEqualTo(DEFAULT_TITLE);
+        assertThat(testRecipe.getServings()).isEqualByComparingTo(DEFAULT_SERVINGS);
+        assertThat(testRecipe.getInstructions()).isEqualTo(DEFAULT_INSTRUCTIONS);
+        assertThat(testRecipe.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
 
     @Test
@@ -158,7 +180,10 @@ class RecipeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(recipe.getId().intValue())))
-            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)));
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
+            .andExpect(jsonPath("$.[*].servings").value(hasItem(sameNumber(DEFAULT_SERVINGS))))
+            .andExpect(jsonPath("$.[*].instructions").value(hasItem(DEFAULT_INSTRUCTIONS)))
+            .andExpect(jsonPath("$.[*].notes").value(hasItem(DEFAULT_NOTES)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -190,7 +215,10 @@ class RecipeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(recipe.getId().intValue()))
-            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE));
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
+            .andExpect(jsonPath("$.servings").value(sameNumber(DEFAULT_SERVINGS)))
+            .andExpect(jsonPath("$.instructions").value(DEFAULT_INSTRUCTIONS))
+            .andExpect(jsonPath("$.notes").value(DEFAULT_NOTES));
     }
 
     @Test
@@ -212,7 +240,7 @@ class RecipeResourceIT {
         Recipe updatedRecipe = recipeRepository.findById(recipe.getId()).get();
         // Disconnect from session so that the updates on updatedRecipe are not directly saved in db
         em.detach(updatedRecipe);
-        updatedRecipe.title(UPDATED_TITLE);
+        updatedRecipe.title(UPDATED_TITLE).servings(UPDATED_SERVINGS).instructions(UPDATED_INSTRUCTIONS).notes(UPDATED_NOTES);
 
         restRecipeMockMvc
             .perform(
@@ -228,6 +256,9 @@ class RecipeResourceIT {
         assertThat(recipeList).hasSize(databaseSizeBeforeUpdate);
         Recipe testRecipe = recipeList.get(recipeList.size() - 1);
         assertThat(testRecipe.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testRecipe.getServings()).isEqualByComparingTo(UPDATED_SERVINGS);
+        assertThat(testRecipe.getInstructions()).isEqualTo(UPDATED_INSTRUCTIONS);
+        assertThat(testRecipe.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 
     @Test
@@ -302,7 +333,7 @@ class RecipeResourceIT {
         Recipe partialUpdatedRecipe = new Recipe();
         partialUpdatedRecipe.setId(recipe.getId());
 
-        partialUpdatedRecipe.title(UPDATED_TITLE);
+        partialUpdatedRecipe.title(UPDATED_TITLE).servings(UPDATED_SERVINGS);
 
         restRecipeMockMvc
             .perform(
@@ -318,6 +349,9 @@ class RecipeResourceIT {
         assertThat(recipeList).hasSize(databaseSizeBeforeUpdate);
         Recipe testRecipe = recipeList.get(recipeList.size() - 1);
         assertThat(testRecipe.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testRecipe.getServings()).isEqualByComparingTo(UPDATED_SERVINGS);
+        assertThat(testRecipe.getInstructions()).isEqualTo(DEFAULT_INSTRUCTIONS);
+        assertThat(testRecipe.getNotes()).isEqualTo(DEFAULT_NOTES);
     }
 
     @Test
@@ -332,7 +366,7 @@ class RecipeResourceIT {
         Recipe partialUpdatedRecipe = new Recipe();
         partialUpdatedRecipe.setId(recipe.getId());
 
-        partialUpdatedRecipe.title(UPDATED_TITLE);
+        partialUpdatedRecipe.title(UPDATED_TITLE).servings(UPDATED_SERVINGS).instructions(UPDATED_INSTRUCTIONS).notes(UPDATED_NOTES);
 
         restRecipeMockMvc
             .perform(
@@ -348,6 +382,9 @@ class RecipeResourceIT {
         assertThat(recipeList).hasSize(databaseSizeBeforeUpdate);
         Recipe testRecipe = recipeList.get(recipeList.size() - 1);
         assertThat(testRecipe.getTitle()).isEqualTo(UPDATED_TITLE);
+        assertThat(testRecipe.getServings()).isEqualByComparingTo(UPDATED_SERVINGS);
+        assertThat(testRecipe.getInstructions()).isEqualTo(UPDATED_INSTRUCTIONS);
+        assertThat(testRecipe.getNotes()).isEqualTo(UPDATED_NOTES);
     }
 
     @Test

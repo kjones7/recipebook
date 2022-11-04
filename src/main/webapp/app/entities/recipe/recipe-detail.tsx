@@ -32,6 +32,18 @@ export const RecipeDetail = () => {
             <span id="title">Title</span>
           </dt>
           <dd>{recipeEntity.title}</dd>
+          <dt>
+            <span id="servings">Servings</span>
+          </dt>
+          <dd>{recipeEntity.servings}</dd>
+          <dt>
+            <span id="instructions">Instructions</span>
+          </dt>
+          <dd>{recipeEntity.instructions}</dd>
+          <dt>
+            <span id="notes">Notes</span>
+          </dt>
+          <dd>{recipeEntity.notes}</dd>
           <dt>Ingredient</dt>
           <dd>
             {recipeEntity.ingredients

@@ -2,6 +2,7 @@ package net.kylejones.recipebook.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.*;
@@ -27,6 +28,18 @@ public class Recipe implements Serializable {
     @Size(max = 40)
     @Column(name = "title", length = 40, nullable = false)
     private String title;
+
+    @DecimalMin(value = "0")
+    @Column(name = "servings", precision = 21, scale = 2)
+    private BigDecimal servings;
+
+    @Size(max = 2000)
+    @Column(name = "instructions", length = 2000)
+    private String instructions;
+
+    @Size(max = 2000)
+    @Column(name = "notes", length = 2000)
+    private String notes;
 
     @ManyToMany
     @JoinTable(
@@ -63,6 +76,45 @@ public class Recipe implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public BigDecimal getServings() {
+        return this.servings;
+    }
+
+    public Recipe servings(BigDecimal servings) {
+        this.setServings(servings);
+        return this;
+    }
+
+    public void setServings(BigDecimal servings) {
+        this.servings = servings;
+    }
+
+    public String getInstructions() {
+        return this.instructions;
+    }
+
+    public Recipe instructions(String instructions) {
+        this.setInstructions(instructions);
+        return this;
+    }
+
+    public void setInstructions(String instructions) {
+        this.instructions = instructions;
+    }
+
+    public String getNotes() {
+        return this.notes;
+    }
+
+    public Recipe notes(String notes) {
+        this.setNotes(notes);
+        return this;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public Set<Ingredient> getIngredients() {
@@ -115,6 +167,9 @@ public class Recipe implements Serializable {
         return "Recipe{" +
             "id=" + getId() +
             ", title='" + getTitle() + "'" +
+            ", servings=" + getServings() +
+            ", instructions='" + getInstructions() + "'" +
+            ", notes='" + getNotes() + "'" +
             "}";
     }
 }

@@ -15,7 +15,7 @@ describe('Recipe e2e test', () => {
   const recipePageUrlPattern = new RegExp('/recipe(\\?.*)?$');
   const username = Cypress.env('E2E_USERNAME') ?? 'user';
   const password = Cypress.env('E2E_PASSWORD') ?? 'user';
-  const recipeSample = { title: 'Ball' };
+  const recipeSample = { title: 'hub' };
 
   let recipe;
 
@@ -163,6 +163,12 @@ describe('Recipe e2e test', () => {
 
     it('should create an instance of Recipe', () => {
       cy.get(`[data-cy="title"]`).type('Fresh').should('have.value', 'Fresh');
+
+      cy.get(`[data-cy="servings"]`).type('12831').should('have.value', '12831');
+
+      cy.get(`[data-cy="instructions"]`).type('enhance').should('have.value', 'enhance');
+
+      cy.get(`[data-cy="notes"]`).type('deposit generate West').should('have.value', 'deposit generate West');
 
       cy.get(entityCreateSaveButtonSelector).click();
 

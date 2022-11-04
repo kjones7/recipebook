@@ -106,6 +106,15 @@ export const Recipe = () => {
                 <th className="hand" onClick={sort('title')}>
                   Title <FontAwesomeIcon icon="sort" />
                 </th>
+                <th className="hand" onClick={sort('servings')}>
+                  Servings <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('instructions')}>
+                  Instructions <FontAwesomeIcon icon="sort" />
+                </th>
+                <th className="hand" onClick={sort('notes')}>
+                  Notes <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -118,6 +127,9 @@ export const Recipe = () => {
                     </Button>
                   </td>
                   <td>{recipe.title}</td>
+                  <td>{recipe.servings}</td>
+                  <td>{recipe.instructions}</td>
+                  <td>{recipe.notes}</td>
                   <td className="text-end">
                     <div className="btn-group flex-btn-group-container">
                       <Button tag={Link} to={`/recipe/${recipe.id}`} color="info" size="sm" data-cy="entityDetailsButton">

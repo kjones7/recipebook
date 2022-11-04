@@ -134,6 +134,15 @@ public class RecipeResource {
                 if (recipe.getTitle() != null) {
                     existingRecipe.setTitle(recipe.getTitle());
                 }
+                if (recipe.getServings() != null) {
+                    existingRecipe.setServings(recipe.getServings());
+                }
+                if (recipe.getInstructions() != null) {
+                    existingRecipe.setInstructions(recipe.getInstructions());
+                }
+                if (recipe.getNotes() != null) {
+                    existingRecipe.setNotes(recipe.getNotes());
+                }
 
                 return existingRecipe;
             })
