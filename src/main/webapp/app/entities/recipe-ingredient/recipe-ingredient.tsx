@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Button, Table } from 'reactstrap';
-import { Translate, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
+import { Translate } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
-import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
-import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IRecipeIngredient } from 'app/shared/model/recipe-ingredient.model';
@@ -18,67 +16,15 @@ export const RecipeIngredient = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [paginationState, setPaginationState] = useState(
-    overridePaginationStateWithQueryParams(getSortState(location, ITEMS_PER_PAGE, 'id'), location.search)
-  );
-
   const recipeIngredientList = useAppSelector(state => state.recipeIngredient.entities);
   const loading = useAppSelector(state => state.recipeIngredient.loading);
-  const totalItems = useAppSelector(state => state.recipeIngredient.totalItems);
-
-  const getAllEntities = () => {
-    dispatch(
-      getEntities({
-        page: paginationState.activePage - 1,
-        size: paginationState.itemsPerPage,
-        sort: `${paginationState.sort},${paginationState.order}`,
-      })
-    );
-  };
-
-  const sortEntities = () => {
-    getAllEntities();
-    const endURL = `?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`;
-    if (location.search !== endURL) {
-      navigate(`${location.pathname}${endURL}`);
-    }
-  };
 
   useEffect(() => {
-    sortEntities();
-  }, [paginationState.activePage, paginationState.order, paginationState.sort]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(location.search);
-    const page = params.get('page');
-    const sort = params.get(SORT);
-    if (page && sort) {
-      const sortSplit = sort.split(',');
-      setPaginationState({
-        ...paginationState,
-        activePage: +page,
-        sort: sortSplit[0],
-        order: sortSplit[1],
-      });
-    }
-  }, [location.search]);
-
-  const sort = p => () => {
-    setPaginationState({
-      ...paginationState,
-      order: paginationState.order === ASC ? DESC : ASC,
-      sort: p,
-    });
-  };
-
-  const handlePagination = currentPage =>
-    setPaginationState({
-      ...paginationState,
-      activePage: currentPage,
-    });
+    dispatch(getEntities({}));
+  }, []);
 
   const handleSyncList = () => {
-    sortEntities();
+    dispatch(getEntities({}));
   };
 
   return (
@@ -100,21 +46,11 @@ export const RecipeIngredient = () => {
           <Table responsive>
             <thead>
               <tr>
-                <th className="hand" onClick={sort('id')}>
-                  ID <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('amount')}>
-                  Amount <FontAwesomeIcon icon="sort" />
-                </th>
-                <th className="hand" onClick={sort('units')}>
-                  Units <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  Recipe <FontAwesomeIcon icon="sort" />
-                </th>
-                <th>
-                  Ingredient <FontAwesomeIcon icon="sort" />
-                </th>
+                <th>ID</th>
+                <th>Amount</th>
+                <th>Units</th>
+                <th>Recipe</th>
+                <th>Ingredient</th>
                 <th />
               </tr>
             </thead>
@@ -155,7 +91,7 @@ export const RecipeIngredient = () => {
                       </Button>
                       <Button
                         tag={Link}
-                        to={`/recipe-ingredient/${recipeIngredient.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        to={`/recipe-ingredient/${recipeIngredient.id}/edit`}
                         color="primary"
                         size="sm"
                         data-cy="entityEditButton"
@@ -164,7 +100,7 @@ export const RecipeIngredient = () => {
                       </Button>
                       <Button
                         tag={Link}
-                        to={`/recipe-ingredient/${recipeIngredient.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                        to={`/recipe-ingredient/${recipeIngredient.id}/delete`}
                         color="danger"
                         size="sm"
                         data-cy="entityDeleteButton"
@@ -181,24 +117,6 @@ export const RecipeIngredient = () => {
           !loading && <div className="alert alert-warning">No Recipe Ingredients found</div>
         )}
       </div>
-      {totalItems ? (
-        <div className={recipeIngredientList && recipeIngredientList.length > 0 ? '' : 'd-none'}>
-          <div className="justify-content-center d-flex">
-            <JhiItemCount page={paginationState.activePage} total={totalItems} itemsPerPage={paginationState.itemsPerPage} />
-          </div>
-          <div className="justify-content-center d-flex">
-            <JhiPagination
-              activePage={paginationState.activePage}
-              onSelect={handlePagination}
-              maxButtons={5}
-              itemsPerPage={paginationState.itemsPerPage}
-              totalItems={totalItems}
-            />
-          </div>
-        </div>
-      ) : (
-        ''
-      )}
     </div>
   );
 };

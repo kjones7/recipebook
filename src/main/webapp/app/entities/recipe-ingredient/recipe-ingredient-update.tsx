@@ -31,7 +31,7 @@ export const RecipeIngredientUpdate = () => {
   const updateSuccess = useAppSelector(state => state.recipeIngredient.updateSuccess);
 
   const handleClose = () => {
-    navigate('/recipe-ingredient' + location.search);
+    navigate('/recipe-ingredient');
   };
 
   useEffect(() => {
