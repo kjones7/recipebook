@@ -31,14 +31,6 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityField": "name",
-      "otherEntityName": "ingredient",
-      "otherEntityRelationshipName": "recipe",
-      "ownerSide": true,
-      "relationshipName": "ingredient",
-      "relationshipType": "many-to-many"
-    },
-    {
       "otherEntityName": "recipeIngredient",
       "otherEntityRelationshipName": "recipe",
       "relationshipName": "recipeIngredient",

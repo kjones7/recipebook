@@ -30,20 +30,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="20221102004916-1-relations" author="jhipster">
-
-        <createTable tableName="rel_recipe__ingredient">
-            <column name="ingredient_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="recipe_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="recipe_id, ingredient_id" tableName="rel_recipe__ingredient"/>
-    </changeSet>
-
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

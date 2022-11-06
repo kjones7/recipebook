@@ -33,7 +33,7 @@ public class RecipeIngredient implements Serializable {
     private String units;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "ingredients", "recipeIngredients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "recipeIngredients" }, allowSetters = true)
     private Recipe recipe;
 
     @ManyToOne

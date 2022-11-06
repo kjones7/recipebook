@@ -44,17 +44,6 @@ export const RecipeDetail = () => {
             <span id="notes">Notes</span>
           </dt>
           <dd>{recipeEntity.notes}</dd>
-          <dt>Ingredient</dt>
-          <dd>
-            {recipeEntity.ingredients
-              ? recipeEntity.ingredients.map((val, i) => (
-                  <span key={val.id}>
-                    <a>{val.name}</a>
-                    {recipeEntity.ingredients && i === recipeEntity.ingredients.length - 1 ? '' : ', '}
-                  </span>
-                ))
-              : null}
-          </dd>
         </dl>
         <Button tag={Link} to="/recipe" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

@@ -41,15 +41,6 @@ public class Recipe implements Serializable {
     @Column(name = "notes", length = 2000)
     private String notes;
 
-    @ManyToMany
-    @JoinTable(
-        name = "rel_recipe__ingredient",
-        joinColumns = @JoinColumn(name = "recipe_id"),
-        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
-    )
-    @JsonIgnoreProperties(value = { "recipeIngredients" }, allowSetters = true)
-    private Set<Ingredient> ingredients = new HashSet<>();
-
     @OneToMany(mappedBy = "recipe")
     @JsonIgnoreProperties(value = { "recipe", "ingredient" }, allowSetters = true)
     private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
@@ -119,29 +110,6 @@ public class Recipe implements Serializable {
 
     public void setNotes(String notes) {
         this.notes = notes;
-    }
-
-    public Set<Ingredient> getIngredients() {
-        return this.ingredients;
-    }
-
-    public void setIngredients(Set<Ingredient> ingredients) {
-        this.ingredients = ingredients;
-    }
-
-    public Recipe ingredients(Set<Ingredient> ingredients) {
-        this.setIngredients(ingredients);
-        return this;
-    }
-
-    public Recipe addIngredient(Ingredient ingredient) {
-        this.ingredients.add(ingredient);
-        return this;
-    }
-
-    public Recipe removeIngredient(Ingredient ingredient) {
-        this.ingredients.remove(ingredient);
-        return this;
     }
 
     public Set<RecipeIngredient> getRecipeIngredients() {

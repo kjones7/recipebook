@@ -8,8 +8,6 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
-import { IIngredient } from 'app/shared/model/ingredient.model';
-import { getEntities as getIngredients } from 'app/entities/ingredient/ingredient.reducer';
 import { IRecipe } from 'app/shared/model/recipe.model';
 import { getEntity, updateEntity, createEntity, reset } from './recipe.reducer';
 
@@ -21,7 +19,6 @@ export const RecipeUpdate = () => {
   const { id } = useParams<'id'>();
   const isNew = id === undefined;
 
-  const ingredients = useAppSelector(state => state.ingredient.entities);
   const recipeEntity = useAppSelector(state => state.recipe.entity);
   const loading = useAppSelector(state => state.recipe.loading);
   const updating = useAppSelector(state => state.recipe.updating);
@@ -37,8 +34,6 @@ export const RecipeUpdate = () => {
     } else {
       dispatch(getEntity(id));
     }
-
-    dispatch(getIngredients({}));
   }, []);
 
   useEffect(() => {
@@ -51,7 +46,6 @@ export const RecipeUpdate = () => {
     const entity = {
       ...recipeEntity,
       ...values,
-      ingredients: mapIdList(values.ingredients),
     };
 
     if (isNew) {
@@ -66,7 +60,6 @@ export const RecipeUpdate = () => {
       ? {}
       : {
           ...recipeEntity,
-          ingredients: recipeEntity?.ingredients?.map(e => e.id.toString()),
         };
 
   return (
@@ -127,16 +120,6 @@ export const RecipeUpdate = () => {
                   maxLength: { value: 2000, message: 'This field cannot be longer than 2000 characters.' },
                 }}
               />
-              <ValidatedField label="Ingredient" id="recipe-ingredient" data-cy="ingredient" type="select" multiple name="ingredients">
-                <option value="" key="0" />
-                {ingredients
-                  ? ingredients.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.name}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/recipe" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
