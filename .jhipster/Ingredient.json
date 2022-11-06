@@ -18,6 +18,12 @@
       "ownerSide": false,
       "relationshipName": "recipe",
       "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "recipeIngredient",
+      "otherEntityRelationshipName": "ingredient",
+      "relationshipName": "recipeIngredient",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

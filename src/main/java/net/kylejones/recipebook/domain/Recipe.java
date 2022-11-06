@@ -47,7 +47,7 @@ public class Recipe implements Serializable {
         joinColumns = @JoinColumn(name = "recipe_id"),
         inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    @JsonIgnoreProperties(value = { "recipes" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "recipes", "recipeIngredients" }, allowSetters = true)
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @OneToMany(mappedBy = "recipe")
