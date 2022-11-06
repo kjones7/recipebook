@@ -28,10 +28,6 @@ public class Ingredient implements Serializable {
     @Column(name = "name", length = 40, nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "ingredients")
-    @JsonIgnoreProperties(value = { "ingredients", "recipeIngredients" }, allowSetters = true)
-    private Set<Recipe> recipes = new HashSet<>();
-
     @OneToMany(mappedBy = "ingredient")
     @JsonIgnoreProperties(value = { "recipe", "ingredient" }, allowSetters = true)
     private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
@@ -62,37 +58,6 @@ public class Ingredient implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Set<Recipe> getRecipes() {
-        return this.recipes;
-    }
-
-    public void setRecipes(Set<Recipe> recipes) {
-        if (this.recipes != null) {
-            this.recipes.forEach(i -> i.removeIngredient(this));
-        }
-        if (recipes != null) {
-            recipes.forEach(i -> i.addIngredient(this));
-        }
-        this.recipes = recipes;
-    }
-
-    public Ingredient recipes(Set<Recipe> recipes) {
-        this.setRecipes(recipes);
-        return this;
-    }
-
-    public Ingredient addRecipe(Recipe recipe) {
-        this.recipes.add(recipe);
-        recipe.getIngredients().add(this);
-        return this;
-    }
-
-    public Ingredient removeRecipe(Recipe recipe) {
-        this.recipes.remove(recipe);
-        recipe.getIngredients().remove(this);
-        return this;
     }
 
     public Set<RecipeIngredient> getRecipeIngredients() {

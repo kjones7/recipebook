@@ -47,7 +47,7 @@ public class Recipe implements Serializable {
         joinColumns = @JoinColumn(name = "recipe_id"),
         inverseJoinColumns = @JoinColumn(name = "ingredient_id")
     )
-    @JsonIgnoreProperties(value = { "recipes", "recipeIngredients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "recipeIngredients" }, allowSetters = true)
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @OneToMany(mappedBy = "recipe")
@@ -136,13 +136,11 @@ public class Recipe implements Serializable {
 
     public Recipe addIngredient(Ingredient ingredient) {
         this.ingredients.add(ingredient);
-        ingredient.getRecipes().add(this);
         return this;
     }
 
     public Recipe removeIngredient(Ingredient ingredient) {
         this.ingredients.remove(ingredient);
-        ingredient.getRecipes().remove(this);
         return this;
     }
 

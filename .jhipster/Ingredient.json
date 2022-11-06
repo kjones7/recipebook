@@ -13,13 +13,6 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "recipe",
-      "otherEntityRelationshipName": "ingredient",
-      "ownerSide": false,
-      "relationshipName": "recipe",
-      "relationshipType": "many-to-many"
-    },
-    {
       "otherEntityName": "recipeIngredient",
       "otherEntityRelationshipName": "ingredient",
       "relationshipName": "recipeIngredient",

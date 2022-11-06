@@ -37,7 +37,7 @@ public class RecipeIngredient implements Serializable {
     private Recipe recipe;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "recipes", "recipeIngredients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "recipeIngredients" }, allowSetters = true)
     private Ingredient ingredient;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
