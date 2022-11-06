@@ -50,6 +50,10 @@ public class Recipe implements Serializable {
     @JsonIgnoreProperties(value = { "recipes" }, allowSetters = true)
     private Set<Ingredient> ingredients = new HashSet<>();
 
+    @OneToMany(mappedBy = "recipe")
+    @JsonIgnoreProperties(value = { "recipe" }, allowSetters = true)
+    private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -139,6 +143,37 @@ public class Recipe implements Serializable {
     public Recipe removeIngredient(Ingredient ingredient) {
         this.ingredients.remove(ingredient);
         ingredient.getRecipes().remove(this);
+        return this;
+    }
+
+    public Set<RecipeIngredient> getRecipeIngredients() {
+        return this.recipeIngredients;
+    }
+
+    public void setRecipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+        if (this.recipeIngredients != null) {
+            this.recipeIngredients.forEach(i -> i.setRecipe(null));
+        }
+        if (recipeIngredients != null) {
+            recipeIngredients.forEach(i -> i.setRecipe(this));
+        }
+        this.recipeIngredients = recipeIngredients;
+    }
+
+    public Recipe recipeIngredients(Set<RecipeIngredient> recipeIngredients) {
+        this.setRecipeIngredients(recipeIngredients);
+        return this;
+    }
+
+    public Recipe addRecipeIngredient(RecipeIngredient recipeIngredient) {
+        this.recipeIngredients.add(recipeIngredient);
+        recipeIngredient.setRecipe(this);
+        return this;
+    }
+
+    public Recipe removeRecipeIngredient(RecipeIngredient recipeIngredient) {
+        this.recipeIngredients.remove(recipeIngredient);
+        recipeIngredient.setRecipe(null);
         return this;
     }
 

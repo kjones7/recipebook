@@ -29,7 +29,7 @@ public class Ingredient implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "ingredients")
-    @JsonIgnoreProperties(value = { "ingredients" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "ingredients", "recipeIngredients" }, allowSetters = true)
     private Set<Recipe> recipes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
