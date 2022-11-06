@@ -27,16 +27,18 @@ public interface RecipeIngredientRepository extends JpaRepository<RecipeIngredie
     }
 
     @Query(
-        value = "select distinct recipeIngredient from RecipeIngredient recipeIngredient left join fetch recipeIngredient.recipe",
+        value = "select distinct recipeIngredient from RecipeIngredient recipeIngredient left join fetch recipeIngredient.recipe left join fetch recipeIngredient.ingredient",
         countQuery = "select count(distinct recipeIngredient) from RecipeIngredient recipeIngredient"
     )
     Page<RecipeIngredient> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct recipeIngredient from RecipeIngredient recipeIngredient left join fetch recipeIngredient.recipe")
+    @Query(
+        "select distinct recipeIngredient from RecipeIngredient recipeIngredient left join fetch recipeIngredient.recipe left join fetch recipeIngredient.ingredient"
+    )
     List<RecipeIngredient> findAllWithToOneRelationships();
 
     @Query(
-        "select recipeIngredient from RecipeIngredient recipeIngredient left join fetch recipeIngredient.recipe where recipeIngredient.id =:id"
+        "select recipeIngredient from RecipeIngredient recipeIngredient left join fetch recipeIngredient.recipe left join fetch recipeIngredient.ingredient where recipeIngredient.id =:id"
     )
     Optional<RecipeIngredient> findOneWithToOneRelationships(@Param("id") Long id);
 }

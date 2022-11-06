@@ -51,7 +51,7 @@ public class Recipe implements Serializable {
     private Set<Ingredient> ingredients = new HashSet<>();
 
     @OneToMany(mappedBy = "recipe")
-    @JsonIgnoreProperties(value = { "recipe" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "recipe", "ingredient" }, allowSetters = true)
     private Set<RecipeIngredient> recipeIngredients = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

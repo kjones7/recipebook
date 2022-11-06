@@ -112,6 +112,9 @@ export const RecipeIngredient = () => {
                 <th>
                   Recipe <FontAwesomeIcon icon="sort" />
                 </th>
+                <th>
+                  Ingredient <FontAwesomeIcon icon="sort" />
+                </th>
                 <th />
               </tr>
             </thead>
@@ -128,6 +131,13 @@ export const RecipeIngredient = () => {
                   <td>
                     {recipeIngredient.recipe ? (
                       <Link to={`/recipe/${recipeIngredient.recipe.id}`}>{recipeIngredient.recipe.title}</Link>
+                    ) : (
+                      ''
+                    )}
+                  </td>
+                  <td>
+                    {recipeIngredient.ingredient ? (
+                      <Link to={`/ingredient/${recipeIngredient.ingredient.id}`}>{recipeIngredient.ingredient.name}</Link>
                     ) : (
                       ''
                     )}

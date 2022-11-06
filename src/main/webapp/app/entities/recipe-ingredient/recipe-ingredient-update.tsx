@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from 'app/config/store';
 
 import { IRecipe } from 'app/shared/model/recipe.model';
 import { getEntities as getRecipes } from 'app/entities/recipe/recipe.reducer';
+import { IIngredient } from 'app/shared/model/ingredient.model';
+import { getEntities as getIngredients } from 'app/entities/ingredient/ingredient.reducer';
 import { IRecipeIngredient } from 'app/shared/model/recipe-ingredient.model';
 import { getEntity, updateEntity, createEntity, reset } from './recipe-ingredient.reducer';
 
@@ -22,6 +24,7 @@ export const RecipeIngredientUpdate = () => {
   const isNew = id === undefined;
 
   const recipes = useAppSelector(state => state.recipe.entities);
+  const ingredients = useAppSelector(state => state.ingredient.entities);
   const recipeIngredientEntity = useAppSelector(state => state.recipeIngredient.entity);
   const loading = useAppSelector(state => state.recipeIngredient.loading);
   const updating = useAppSelector(state => state.recipeIngredient.updating);
@@ -39,6 +42,7 @@ export const RecipeIngredientUpdate = () => {
     }
 
     dispatch(getRecipes({}));
+    dispatch(getIngredients({}));
   }, []);
 
   useEffect(() => {
@@ -52,6 +56,7 @@ export const RecipeIngredientUpdate = () => {
       ...recipeIngredientEntity,
       ...values,
       recipe: recipes.find(it => it.id.toString() === values.recipe.toString()),
+      ingredient: ingredients.find(it => it.id.toString() === values.ingredient.toString()),
     };
 
     if (isNew) {
@@ -67,6 +72,7 @@ export const RecipeIngredientUpdate = () => {
       : {
           ...recipeIngredientEntity,
           recipe: recipeIngredientEntity?.recipe?.id,
+          ingredient: recipeIngredientEntity?.ingredient?.id,
         };
 
   return (
@@ -116,6 +122,16 @@ export const RecipeIngredientUpdate = () => {
                   ? recipes.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
                         {otherEntity.title}
+                      </option>
+                    ))
+                  : null}
+              </ValidatedField>
+              <ValidatedField id="recipe-ingredient-ingredient" name="ingredient" data-cy="ingredient" label="Ingredient" type="select">
+                <option value="" key="0" />
+                {ingredients
+                  ? ingredients.map(otherEntity => (
+                      <option value={otherEntity.id} key={otherEntity.id}>
+                        {otherEntity.name}
                       </option>
                     ))
                   : null}

@@ -36,6 +36,10 @@ public class RecipeIngredient implements Serializable {
     @JsonIgnoreProperties(value = { "ingredients", "recipeIngredients" }, allowSetters = true)
     private Recipe recipe;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "recipes" }, allowSetters = true)
+    private Ingredient ingredient;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -87,6 +91,19 @@ public class RecipeIngredient implements Serializable {
 
     public RecipeIngredient recipe(Recipe recipe) {
         this.setRecipe(recipe);
+        return this;
+    }
+
+    public Ingredient getIngredient() {
+        return this.ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
+    }
+
+    public RecipeIngredient ingredient(Ingredient ingredient) {
+        this.setIngredient(ingredient);
         return this;
     }
 

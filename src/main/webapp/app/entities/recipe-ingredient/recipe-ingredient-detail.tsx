@@ -38,6 +38,8 @@ export const RecipeIngredientDetail = () => {
           <dd>{recipeIngredientEntity.units}</dd>
           <dt>Recipe</dt>
           <dd>{recipeIngredientEntity.recipe ? recipeIngredientEntity.recipe.title : ''}</dd>
+          <dt>Ingredient</dt>
+          <dd>{recipeIngredientEntity.ingredient ? recipeIngredientEntity.ingredient.name : ''}</dd>
         </dl>
         <Button tag={Link} to="/recipe-ingredient" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" /> <span className="d-none d-md-inline">Back</span>

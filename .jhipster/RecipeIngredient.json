@@ -23,6 +23,12 @@
       "otherEntityName": "recipe",
       "relationshipName": "recipe",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "ingredient",
+      "relationshipName": "ingredient",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "no"
