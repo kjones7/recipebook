@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import { Button, Row, Col, FormText } from 'reactstrap';
+import { Button, Row, Col, FormText, Input, Label, FormGroup } from 'reactstrap';
 import { isNumber, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -100,6 +100,19 @@ export const RecipeUpdate = () => {
                   validate: v => isNumber(v) || 'This field should be a number.',
                 }}
               />
+              {/* BEGIN: Ingredients component */}
+              <FormGroup>
+                <Row>
+                  <Label for="ingredientInput">Ingredients</Label>
+                  <Col md="8">
+                    <Input id="ingredientInput"></Input>
+                  </Col>
+                  <Col md="4">
+                    <Button color="primary">Add</Button>
+                  </Col>
+                </Row>
+              </FormGroup>
+              {/* END: Ingredients component */}
               <ValidatedField
                 label="Instructions"
                 id="recipe-instructions"
